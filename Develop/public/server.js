@@ -5,14 +5,23 @@ const PORT = 3001
 //const heroes = require('./Develop/db/db.json') 
 //***************//this imports the JSON array where your data is stored. get it data folder.
 
+//middleware that passes the module path through the routes. it is the entrypoint for all your page and API routes.
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(express.static(path.join(__dirname, 'Develop', 'public')));
-//this is the middleware that the request comes through that you can do stuff with later.
 
-//Page Routes 
-
+//Page Routes
 app.get('/', (req, res) => {
-  const filePath = path.join(__dirname, 'Develop', 'public' ,'index.html');
+  const filePath = path.join(__dirname, 'index.html');
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      console.error('Error sending file:', err);
+    }
+  });
+});
+
+
+app.get('/api/notes', (req, res) => {
+  const filePath = path.join(__dirname, 'notes.html');
   res.sendFile(filePath, (err) => {
     if (err) {
       console.error('Error sending file:', err);
