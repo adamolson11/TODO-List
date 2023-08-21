@@ -1,4 +1,4 @@
-
+const API_BASE_URL = 'http://localhost:3001'; 
 let noteTitle;
 let noteText;
 let saveNoteBtn;
@@ -25,9 +25,8 @@ const hide = (elem) => {
 
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
-
 const getNotes = () =>
-  fetch('/api/notes', {
+  fetch(`${API_BASE_URL}/api/notes`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -35,7 +34,7 @@ const getNotes = () =>
   });
 
 const saveNote = (note) =>
-  fetch('/api/notes', {
+  fetch(`${API_BASE_URL}/api/notes`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -44,7 +43,7 @@ const saveNote = (note) =>
   });
 
 const deleteNote = (id) =>
-  fetch(`/api/notes/${id}`, {
+  fetch(`${API_BASE_URL}/api/notes/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

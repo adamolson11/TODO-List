@@ -1,47 +1,58 @@
-const path = require('path')
-const express = require('express')
-const app = express()//this creates a new express app
-const PORT = 3001
-//const heroes = require('./Develop/db/db.json') 
-//***************//this imports the JSON array where your data is stored. get it data folder.
+const express = require('express');
+const app = express();
+const path = require('path');
+const { v4: uuidv4 } = require('uuid'); // Import uuidv4 from uuid library
+const PORT = process.env.PORT || 3001;
 
-//middleware that passes the module path through the routes. it is the entrypoint for all your page and API routes.
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static files
+app.use(express.static('public'));
+app.use(express.json()); // Middleware for JSON parsing
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
+// Example array to store notes
+const notes = [];
 
-//Page Routes
+// Route to get all notes
+app.get('/api/notes', (req, res) => {
+  res.json(notes);
+});
+
+// Route to create a new note
+app.post('/api/notes', (req, res) => {
+  const newNote = req.body;
+
+  // Generate a unique ID using uuidv4
+  newNote.id = uuidv4();
+
+  notes.push(newNote);
+  res.status(201).json(newNote);
+});
+
+// Route to delete a note by ID
+app.delete('/api/notes/:id', (req, res) => {
+  const noteId = req.params.id;
+  const index = notes.findIndex(note => note.id === noteId);
+  if (index !== -1) {
+    notes.splice(index, 1);
+    res.sendStatus(204); // No Content
+  } else {
+    res.sendStatus(404); // Not Found
+  }
+});
+
+// Serve the main HTML file for the root route
 app.get('/', (req, res) => {
   const filePath = path.join(__dirname, 'index.html');
-  res.sendFile(filePath, (err) => {
-    if (err) {
-      console.error('Error sending file:', err);
-    }
-  });
+  res.sendFile(filePath);
 });
 
-
-app.get('/api/notes', (req, res) => {
+// Serve the notes HTML file for the '/notes' route
+app.get('/notes', (req, res) => {
   const filePath = path.join(__dirname, 'notes.html');
-  res.sendFile(filePath, (err) => {
-    if (err) {
-      console.error('Error sending file:', err);
-    }
-  });
+  res.sendFile(filePath);
 });
 
-
+// Start the server
 app.listen(PORT, () => {
-  console.log(`Express App listening on port http://localhost:${PORT}`) //this one is important, without it you can't open the port.
-})
-
-
-
-
-
-//I need to...Express.js back end and will save 
-//express to retrieve note data from a JSON file.
-//build the backend 
-        //
-//connect the front end with the backend 
-// Deploy to Heroku
-//get set up with Heroku. 
+  console.log(`Express App listening on port ${PORT}`);
+});
