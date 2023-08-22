@@ -1,4 +1,10 @@
-const API_BASE_URL = 'http://localhost:3001'; 
+const API_BASE_URL = 'http://localhost:3001'; //once I get access to hiroku I need to change this.
+
+const router = require('express').Router()
+const viewRoutes = require('./views')
+const notesApiRoutes = require('./notes')
+
+
 let noteTitle;
 let noteText;
 let saveNoteBtn;
@@ -181,3 +187,8 @@ if (window.location.pathname === '/notes') {
 }
 
 getAndRenderNotes();
+
+router.use('/api', notesApiRoutes)
+
+router.use('/', viewRoutes)//where does this go?>??
+module.exports= router
