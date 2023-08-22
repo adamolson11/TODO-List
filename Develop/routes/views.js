@@ -20,4 +20,4 @@ router.get('/notes', (req, res) => {
 });
 
 
-modules.exports = router
+module.exports = router;

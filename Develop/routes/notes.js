@@ -2,8 +2,9 @@
 
 const router = require('express').Router()
 const notes = require('./db/db.json')
-const {generateId} = require('./utils/generator')
+
 const path = require('path');
+const dataPath= path.join(__dirname,'db', 'notes.json')
 
 // Route to create a new note
 router.post('/notes', (req, res) => {

@@ -1,8 +1,8 @@
-const routes = requires('./routes') //allows access to our modules
+const routes = require('../routes'); // Relative path to the routes module
 const express = require ('express')
 
-const routes = require('./routes')
-const requestLogger = require('./middleware/request-logger')
+
+
 const app = express();
 
 const PORT = process.env.PORT || 3001;
